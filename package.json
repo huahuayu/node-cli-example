@@ -1,0 +1,29 @@
+{
+  "name": "node-cli-example",
+  "version": "1.0.0",
+  "description": "node command line programing example",
+  "main": "note.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huahuayu/node-cli-example.git"
+  },
+  "keywords": [
+    "cli",
+    "yargs"
+  ],
+  "author": "Shiming Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huahuayu/node-cli-example/issues"
+  },
+  "homepage": "https://github.com/huahuayu/node-cli-example",
+  "dependencies": {
+    "yargs": "^15.3.1"
+  },
+  "bin": {
+    "note": "./note.js"
+  }
+}
