@@ -44,3 +44,28 @@ Examples:
   delete a note:
   note del -t monday_note
 ```
+
+查看代码: [note.js](https://github.com/huahuayu/node-cli-example/blob/master/note.js)
+
+## 程序特点
+
+- 简洁（仅 80 行），依赖少(只依赖 `yargs`)
+- 有必要的帮助文档（包含 Usage、常用命令、常用 option 等）
+- 可以查看版本 (`note -v`)
+- 有常用的示例
+- 参数支持简写（如 `-h`等价于`--help`）
+- 设置参数类型（string,number 之类）
+- 设置参数选输/必输
+- 设置参数默认值
+- 敲错命令或参数的时候有提示
+- 有子命令帮助（如: `note add -h`）
+
+## 卸载
+
+```bash
+rm /usr/local/bin/note
+```
+
+## 参考资料
+
+[yargs error handling](https://github.com/yargs/yargs/issues/883)
