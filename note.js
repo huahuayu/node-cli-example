@@ -72,13 +72,15 @@ yargs.command({
   },
 });
 
-// 设置参数简写
 yargs
+  // 设置参数简写
   .alias("t", "title")
   .alias("b", "body")
   .alias("h", "help")
   .alias("v", "version")
+  // 设置Usage
   .usage("Usage: note [add | get | del] [--title | --body]")
+  // 设置Example
   .example(
     "add a note:\nnote add --title=monday_note --body=a_wonderful_day\nnote add -t monday_note -b a_wonderful_day\n\nget a note:\nnote get -t monday_note\n\ndelete a note:\nnote del -t monday_note"
   );
