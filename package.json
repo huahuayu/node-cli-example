@@ -4,7 +4,8 @@
   "description": "node command line programing example",
   "main": "note.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "mkdir -p ~/.note && cp ./conf/conf.json ~/.note/conf.json"
   },
   "repository": {
     "type": "git",

@@ -9,6 +9,7 @@
 
 便签以文件形式储存在`/tmp/note.json`文件中
 :q
+
 ## 快速开始
 
 **安装**
@@ -108,8 +109,7 @@ rm /usr/local/bin/note
 
 ## todo
 
-1. 安装`note`程序时在`~/.note/conf.json`放置配置文件
-1. 处理出错时 exit code 设置
+1. 增删改查处理出错时 exit code 设置
 
 ## 参考资料
 
