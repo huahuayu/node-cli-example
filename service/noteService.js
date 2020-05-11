@@ -65,17 +65,64 @@ const get = function (title) {
     return note.title === title;
   });
 
-  console.log(filter[0] === undefined ? "note is not exists" : filter[0]);
+  console.log(filter.length === 0 ? "note is not exists" : filter[0]);
 };
 
-// 修改note
+/**
+ * 更新note条目
+ * @param title
+ * @param body
+ */
 const update = function (title, body) {
-  console.log("update note: " + title + "body: " + body);
+  let notes = loadNotes();
+
+  if (notes.length === 0) {
+    console.log("note database is not create yet!");
+    return;
+  }
+
+  let filter = notes.filter(function (note) {
+    return note.title === title;
+  });
+
+  if (filter.length === 0) {
+    console.log("note is not exists!");
+    return;
+  }
+
+  notes.find(note => note.title === title).body = body;
+
+  try {
+    fs.writeFileSync("/tmp/note.json", JSON.stringify(notes, null, 2));
+    console.log("note is update successfully!");
+  } catch (e) {
+    console.log("fail to update note: " + e.message);
+  }
 };
 
-// 删除note
+/**
+ * 删除note条目
+ * @param title
+ */
 const del = function (title) {
-  console.log("del note: " + title);
+  let notes = loadNotes();
+
+  if (notes.length === 0) {
+    console.log("note database is not create yet!");
+    return;
+  }
+
+  let filter = notes.filter(function (note) {
+    return note.title !== title;
+  });
+
+  try {
+    fs.writeFileSync("/tmp/note.json", JSON.stringify(filter, null, 2));
+    console.log("note is delete successfully!");
+  } catch (e) {
+    console.log("fail to delete note: " + e.message);
+  }
+
 };
 
 module.exports = {

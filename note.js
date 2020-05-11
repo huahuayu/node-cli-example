@@ -54,6 +54,26 @@ yargs.command({
 });
 
 yargs.command({
+  command: "update",
+  desc: "update a note",
+  builder: {
+    title: {
+      desc: "note title",
+      demandOption: true,
+      type: "string",
+    },
+    body: {
+      desc: "note body",
+      demandOption: false,
+      type: "string",
+    },
+  },
+  handler: function () {
+    noteService.update(yargs.argv.title, yargs.argv.body);
+  },
+});
+
+yargs.command({
   command: "del",
   desc: "delete a note",
   builder: {
@@ -64,13 +84,13 @@ yargs.command({
     },
   },
   handler: function () {
-    log("deleting the note, title: " + yargs.argv.title);
+    noteService.del(yargs.argv.title);
   },
 });
 
 yargs
   // 设置Usage
-  .usage("Usage: note [add | get | del] [--title | --body]")
+  .usage("Usage: note [add | get | update | del] [--title | --body]")
   // 设置参数简写
   .alias("t", "title")
   .alias("b", "body")
@@ -80,6 +100,7 @@ yargs
   .example("add", "note add --title=monday_note --body=a_wonderful_day")
   .example("add", "note add -t monday_note -b a_wonderful_day")
   .example("get", "note get -t monday_note")
+  .example("update", "note update -t monday_note -b new_content")
   .example("del", "del -t monday_note");
 
 // 设置有效性检查： 1.至少一个参数 2.严格检查模式
