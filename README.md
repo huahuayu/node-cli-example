@@ -105,11 +105,8 @@ note del -t note1
 
 ```bash
 rm /usr/local/bin/note
+rm -r ~/.note
 ```
-
-## todo
-
-1. 增删改查处理出错时 exit code 设置
 
 ## 参考资料
 

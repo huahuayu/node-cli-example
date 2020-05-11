@@ -15,6 +15,7 @@ const loadNotes = function (argv) {
     return JSON.parse(fs.readFileSync(defaultNotePath).toString());
   } catch (e) {
     console.log(e.message);
+    process.exit(1);
   }
 };
 
@@ -45,6 +46,7 @@ const add = function (argv) {
     console.log("note is added successfully! view at " + argv.notePath);
   } catch (e) {
     console.log("fail to add note: " + e.message);
+    process.exit(1);
   }
 };
 
@@ -88,13 +90,14 @@ const update = function (argv) {
     return;
   }
 
-  notes.find(note => note.title === argv.title).body = argv.body;
+  notes.find((note) => note.title === argv.title).body = argv.body;
 
   try {
     fs.writeFileSync(argv.notePath, JSON.stringify(notes, null, 2));
     console.log("note is update successfully!");
   } catch (e) {
     console.log("fail to update note: " + e.message);
+    process.exit(1);
   }
 };
 
@@ -125,8 +128,8 @@ const del = function (argv) {
     console.log("note is deleted successfully!");
   } catch (e) {
     console.log("fail to delete note: " + e.message);
+    process.exit(1);
   }
-
 };
 
 module.exports = {
