@@ -6,8 +6,8 @@ const defaultNotePath = "/tmp/note.json";
  * 返回note.json文件object，如果文件不存在则返回空数组对象
  * @returns {*[]|any}
  */
-const loadNotes = function () {
-  if (!fs.existsSync(defaultNotePath)) {
+const loadNotes = function (argv) {
+  if (!fs.existsSync(argv.notePath)) {
     return [];
   }
 
@@ -20,30 +20,29 @@ const loadNotes = function () {
 
 /**
  * 新增note
- * @param title
- * @param body
+ * @param argv
  */
-const add = function (title, body) {
-  let notes = loadNotes();
+const add = function (argv) {
+  const notes = loadNotes(argv);
 
   // 找出相同标题的note
-  let filter = notes.filter(function (note) {
-    return note.title === title;
+  const filter = notes.filter(function (note) {
+    return note.title === argv.title;
   });
 
   if (filter.length !== 0) {
-    console.log("note title exists!");
+    console.log("duplicate title!");
     return;
   }
 
   notes.push({
-    title: title,
-    body: body,
+    title: argv.title,
+    body: argv.body,
   });
 
   try {
-    fs.writeFileSync("/tmp/note.json", JSON.stringify(notes, null, 2));
-    console.log("note is added successfully!");
+    fs.writeFileSync(argv.notePath, JSON.stringify(notes, null, 2));
+    console.log("note is added successfully! view at " + argv.notePath);
   } catch (e) {
     console.log("fail to add note: " + e.message);
   }
@@ -51,49 +50,48 @@ const add = function (title, body) {
 
 /**
  * 查询note
- * @param title
+ * @param argv
  */
-const get = function (title) {
-  let notes = loadNotes();
+const get = function (argv) {
+  const notes = loadNotes(argv);
 
   if (notes.length === 0) {
     console.log("note database is not create yet!");
     return;
   }
 
-  let filter = notes.filter(function (note) {
-    return note.title === title;
+  const filter = notes.filter(function (note) {
+    return note.title === argv.title;
   });
 
-  console.log(filter.length === 0 ? "note is not exists" : filter[0]);
+  console.log(filter.length === 0 ? "note does not exist!" : filter[0]);
 };
 
 /**
  * 更新note条目
- * @param title
- * @param body
+ * @param argv
  */
-const update = function (title, body) {
-  let notes = loadNotes();
+const update = function (argv) {
+  const notes = loadNotes(argv);
 
   if (notes.length === 0) {
     console.log("note database is not create yet!");
     return;
   }
 
-  let filter = notes.filter(function (note) {
-    return note.title === title;
+  const filter = notes.filter(function (note) {
+    return note.title === argv.title;
   });
 
   if (filter.length === 0) {
-    console.log("note is not exists!");
+    console.log("note does not exist!");
     return;
   }
 
-  notes.find(note => note.title === title).body = body;
+  notes.find(note => note.title === argv.title).body = argv.body;
 
   try {
-    fs.writeFileSync("/tmp/note.json", JSON.stringify(notes, null, 2));
+    fs.writeFileSync(argv.notePath, JSON.stringify(notes, null, 2));
     console.log("note is update successfully!");
   } catch (e) {
     console.log("fail to update note: " + e.message);
@@ -102,23 +100,29 @@ const update = function (title, body) {
 
 /**
  * 删除note条目
+ * @param argv
  * @param title
  */
-const del = function (title) {
-  let notes = loadNotes();
+const del = function (argv) {
+  const notes = loadNotes(argv);
 
   if (notes.length === 0) {
     console.log("note database is not create yet!");
     return;
   }
 
-  let filter = notes.filter(function (note) {
-    return note.title !== title;
+  const filter = notes.filter(function (note) {
+    return note.title !== argv.title;
   });
 
+  if (filter.length === notes.length) {
+    console.log("note does not exist!");
+    return;
+  }
+
   try {
-    fs.writeFileSync("/tmp/note.json", JSON.stringify(filter, null, 2));
-    console.log("note is delete successfully!");
+    fs.writeFileSync(argv.notePath, JSON.stringify(filter, null, 2));
+    console.log("note is deleted successfully!");
   } catch (e) {
     console.log("fail to delete note: " + e.message);
   }

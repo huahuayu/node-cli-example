@@ -1,13 +1,36 @@
 #!/usr/bin/env node
 const yargs = require("yargs");
 const noteService = require("./service/noteService");
-const log = console.log;
+const fs = require("fs");
 
-// 如果不在程序中指定，note -v输出的版本号为package.json中的版本号
-// 如果程序中指定了version，则note -v输出程序中指定的版本号
-yargs.version("1.1.0");
+yargs
+  // .version("1.1.0") 设置版本号，如不设置则取package.json中的版本号
+  // 设置Usage
+  .usage("Usage: note [add | get | update | del] [--title | --body]")
+  // 设置参数简写
+  .alias("c", "conf")
+  .alias("h", "help")
+  .alias("v", "version")
+  .alias("t", "title")
+  .alias("b", "body")
+  // 设置example
+  .example("add", "note add --config=/etc/note/conf.json --title=note1 --body=a_wonderful_day")
+  .example("add", "note add -t note1 -b a_wonderful_day")
+  .example("get", "note get -t note1")
+  .example("update", "note update -t note1 -b new_content")
+  .example("del", "del -t note1");
 
-// 定义命令，add, get, del
+// config文件
+yargs.option("conf", {
+  desc: "absolute config file path (default $HOME/.note/conf.json)",
+  demandOption: false,
+  default: require("os").homedir() + "/.note/conf.json"
+});
+
+// config文件参数
+const conf = JSON.parse(fs.readFileSync(yargs.argv.conf, "utf-8"));
+
+// 定义命令，add, get, update, del
 yargs.command({
   // 命令名
   command: "add",
@@ -28,13 +51,14 @@ yargs.command({
       desc: "note content",
       demandOption: false,
       type: "string",
-      // 因为第二个参数是非必输项，所以设置一个默认值
+      // 非必输项，可设默认值
       default: "",
     },
   },
   // 命令被触发后执行的功能
   handler: function () {
-    noteService.add(yargs.argv.title, yargs.argv.body);
+    // 传入的参数为 conf + yargs.argv, 且同key时，yargs.argv会覆盖conf的参数
+    noteService.add(Object.assign(conf, yargs.argv));
   },
 });
 
@@ -49,7 +73,7 @@ yargs.command({
     },
   },
   handler: function () {
-    noteService.get(yargs.argv.title);
+    noteService.get(Object.assign(conf, yargs.argv));
   },
 });
 
@@ -69,7 +93,7 @@ yargs.command({
     },
   },
   handler: function () {
-    noteService.update(yargs.argv.title, yargs.argv.body);
+    noteService.update(Object.assign(conf, yargs.argv));
   },
 });
 
@@ -84,24 +108,9 @@ yargs.command({
     },
   },
   handler: function () {
-    noteService.del(yargs.argv.title);
+    noteService.del(Object.assign(conf, yargs.argv));
   },
 });
-
-yargs
-  // 设置Usage
-  .usage("Usage: note [add | get | update | del] [--title | --body]")
-  // 设置参数简写
-  .alias("t", "title")
-  .alias("b", "body")
-  .alias("h", "help")
-  .alias("v", "version")
-  // 设置example
-  .example("add", "note add --title=monday_note --body=a_wonderful_day")
-  .example("add", "note add -t monday_note -b a_wonderful_day")
-  .example("get", "note get -t monday_note")
-  .example("update", "note update -t monday_note -b new_content")
-  .example("del", "del -t monday_note");
 
 // 设置有效性检查： 1.至少一个参数 2.严格检查模式
 yargs.demandCommand(1).strict();
