@@ -27,11 +27,11 @@ const add = function (argv) {
   const notes = loadNotes(argv.notePath);
 
   // 找出相同标题的note
-  const filter = notes.filter(function (note) {
+  const duplicateTitleNotes = notes.filter(function (note) {
     return note.title === argv.title;
   });
 
-  if (filter.length !== 0) {
+  if (duplicateTitleNotes.length !== 0) {
     console.log("duplicate title!");
     return;
   }
@@ -81,16 +81,12 @@ const update = function (argv) {
     return;
   }
 
-  const filter = notes.filter(function (note) {
-    return note.title === argv.title;
-  });
-
-  if (filter.length === 0) {
+  const noteToUpdate = notes.find((note) => note.title === argv.title);
+  if (noteToUpdate === undefined) {
     console.log("note does not exist!");
     return;
   }
-
-  notes.find((note) => note.title === argv.title).body = argv.body;
+  noteToUpdate.body = argv.body;
 
   try {
     fs.writeFileSync(argv.notePath, JSON.stringify(notes, null, 2));
@@ -114,17 +110,17 @@ const del = function (argv) {
     return;
   }
 
-  const filter = notes.filter(function (note) {
+  const notesToKeep = notes.filter(function (note) {
     return note.title !== argv.title;
   });
 
-  if (filter.length === notes.length) {
+  if (notesToKeep.length === notes.length) {
     console.log("note does not exist!");
     return;
   }
 
   try {
-    fs.writeFileSync(argv.notePath, JSON.stringify(filter, null, 2));
+    fs.writeFileSync(argv.notePath, JSON.stringify(notesToKeep, null, 2));
     console.log("note is deleted successfully!");
   } catch (e) {
     console.log("fail to delete note: " + e.message);
