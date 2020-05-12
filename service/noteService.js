@@ -6,8 +6,8 @@ const defaultNotePath = "/tmp/note.json";
  * 返回note.json文件object，如果文件不存在则返回空数组对象
  * @returns {*[]|any}
  */
-const loadNotes = function (argv) {
-  if (!fs.existsSync(argv.notePath)) {
+const loadNotes = function (notePath) {
+  if (!fs.existsSync(notePath)) {
     return [];
   }
 
@@ -24,7 +24,7 @@ const loadNotes = function (argv) {
  * @param argv
  */
 const add = function (argv) {
-  const notes = loadNotes(argv);
+  const notes = loadNotes(argv.notePath);
 
   // 找出相同标题的note
   const filter = notes.filter(function (note) {
@@ -55,7 +55,7 @@ const add = function (argv) {
  * @param argv
  */
 const get = function (argv) {
-  const notes = loadNotes(argv);
+  const notes = loadNotes(argv.notePath);
 
   if (notes.length === 0) {
     console.log("note database is not create yet!");
@@ -74,7 +74,7 @@ const get = function (argv) {
  * @param argv
  */
 const update = function (argv) {
-  const notes = loadNotes(argv);
+  const notes = loadNotes(argv.notePath);
 
   if (notes.length === 0) {
     console.log("note database is not create yet!");
@@ -107,7 +107,7 @@ const update = function (argv) {
  * @param title
  */
 const del = function (argv) {
-  const notes = loadNotes(argv);
+  const notes = loadNotes(argv.notePath);
 
   if (notes.length === 0) {
     console.log("note database is not create yet!");
