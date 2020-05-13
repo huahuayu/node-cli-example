@@ -45,6 +45,20 @@ Examples:
 
 ```
 
+**目录结构** 
+```text
+node-cli-example
+├── README.md
+├── bin
+│   └── note                    # 程序入口
+├── conf                        
+│   └── conf.json               # 配置文件
+├── package-lock.json
+├── package.json
+└── service
+    └── noteService.js          # 服务实现
+```
+
 查看代码: [note.js](https://github.com/huahuayu/node-cli-example/blob/master/note.js)
 
 ## 程序特点
