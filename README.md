@@ -127,6 +127,9 @@ rm /usr/local/bin/note
 rm -r ~/.note
 ```
 
+## todo
+1. 自动化测试
+
 ## 参考资料
 
 [yargs doc](http://yargs.js.org/docs/)
