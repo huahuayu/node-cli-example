@@ -56,7 +56,7 @@ yargs.command({
     },
   },
   // 命令被触发后执行的功能
-  handler: function () {
+  handler() {
     // 传入的参数为 conf + yargs.argv, 且同key时，yargs.argv会覆盖conf的参数
     noteService.add(Object.assign(conf, yargs.argv));
   },
@@ -72,7 +72,7 @@ yargs.command({
       type: "string",
     },
   },
-  handler: function () {
+  handler() {
     noteService.get(Object.assign(conf, yargs.argv));
   },
 });
@@ -92,7 +92,7 @@ yargs.command({
       type: "string",
     },
   },
-  handler: function () {
+  handler() {
     noteService.update(Object.assign(conf, yargs.argv));
   },
 });
@@ -107,7 +107,7 @@ yargs.command({
       type: "string",
     },
   },
-  handler: function () {
+  handler() {
     noteService.del(Object.assign(conf, yargs.argv));
   },
 });

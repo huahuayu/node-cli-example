@@ -6,7 +6,7 @@ const defaultNotePath = "/tmp/note.json";
  * 返回note.json文件object，如果文件不存在则返回空数组对象
  * @returns {*[]|any}
  */
-const loadNotes = function (notePath) {
+const loadNotes = (notePath) => {
   if (!fs.existsSync(notePath)) {
     return [];
   }
@@ -23,13 +23,11 @@ const loadNotes = function (notePath) {
  * 新增note
  * @param argv
  */
-const add = function (argv) {
+const add = (argv) => {
   const notes = loadNotes(argv.notePath);
 
   // 找出相同标题的note
-  const duplicateTitleNotes = notes.filter(function (note) {
-    return note.title === argv.title;
-  });
+  const duplicateTitleNotes = notes.filter((note) => note.title === argv.title);
 
   if (duplicateTitleNotes.length !== 0) {
     console.log("duplicate title!");
@@ -54,7 +52,7 @@ const add = function (argv) {
  * 查询note
  * @param argv
  */
-const get = function (argv) {
+const get = (argv) => {
   const notes = loadNotes(argv.notePath);
 
   if (notes.length === 0) {
@@ -62,9 +60,7 @@ const get = function (argv) {
     return;
   }
 
-  const filter = notes.filter(function (note) {
-    return note.title === argv.title;
-  });
+  const filter = notes.filter((note) => note.title === argv.title);
 
   console.log(filter.length === 0 ? "note does not exist!" : filter[0]);
 };
@@ -73,7 +69,7 @@ const get = function (argv) {
  * 更新note条目
  * @param argv
  */
-const update = function (argv) {
+const update = (argv) => {
   const notes = loadNotes(argv.notePath);
 
   if (notes.length === 0) {
@@ -102,7 +98,7 @@ const update = function (argv) {
  * @param argv
  * @param title
  */
-const del = function (argv) {
+const del = (argv) => {
   const notes = loadNotes(argv.notePath);
 
   if (notes.length === 0) {
@@ -110,9 +106,7 @@ const del = function (argv) {
     return;
   }
 
-  const notesToKeep = notes.filter(function (note) {
-    return note.title !== argv.title;
-  });
+  const notesToKeep = notes.filter((note) => note.title !== argv.title);
 
   if (notesToKeep.length === notes.length) {
     console.log("note does not exist!");
