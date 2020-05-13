@@ -4,6 +4,7 @@
 
 1. 新建便签 (示例：note add --title=note1 --body=cool)
 1. 查询便签 (示例：note get -t note1）
+1. 查询便签列表 (示例：note list)
 1. 修改便签 (示例：note update -t note1 -b new_content)
 1. 删除便签 (示例：del -t note1)
 
