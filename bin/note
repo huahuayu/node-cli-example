@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const yargs = require("yargs");
-const noteService = require("./service/noteService");
+const noteService = require("../service/noteService");
 const fs = require("fs");
 
 yargs

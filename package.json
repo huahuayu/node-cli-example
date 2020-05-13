@@ -25,6 +25,6 @@
     "yargs": "^15.3.1"
   },
   "bin": {
-    "note": "./note.js"
+    "note": "./bin/note"
   }
 }
