@@ -26,8 +26,7 @@ npm install -g
 使用`note -h`查看帮助
 
 ```text
-$ note -h
-Usage: note [add | get | update | del] [--title | --body]
+Usage: note [add | get | list | update | del] [--title | --body]
 
 Options:
   -c, --conf     absolute config file path (default $HOME/.note/conf.json)
@@ -39,8 +38,10 @@ Examples:
           --body=a_wonderful_day
   add     note add -t note1 -b a_wonderful_day
   get     note get -t note1
+  list    note list
   update  note update -t note1 -b new_content
   del     del -t note1
+
 ```
 
 查看代码: [note.js](https://github.com/huahuayu/node-cli-example/blob/master/note.js)
@@ -89,6 +90,9 @@ note add -c /tmp/conf.json -t note1 -b cool
 # case1: 便签存在
 # case2：便签不存在
 note get -t note1
+
+# 获取便签列表
+note list
 
 # 修改便签
 # case1: 便签存在

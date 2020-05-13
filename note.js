@@ -6,7 +6,7 @@ const fs = require("fs");
 yargs
   // .version("1.1.0") 设置版本号，如不设置则取package.json中的版本号
   // 设置Usage
-  .usage("Usage: note [add | get | update | del] [--title | --body]")
+  .usage("Usage: note [add | get | list | update | del] [--title | --body]")
   // 设置参数简写
   .alias("c", "conf")
   .alias("h", "help")
@@ -17,6 +17,7 @@ yargs
   .example("add", "note add --config=/etc/note/conf.json --title=note1 --body=a_wonderful_day")
   .example("add", "note add -t note1 -b a_wonderful_day")
   .example("get", "note get -t note1")
+  .example("list", "note list")
   .example("update", "note update -t note1 -b new_content")
   .example("del", "del -t note1");
 
@@ -30,7 +31,7 @@ yargs.option("conf", {
 // config文件参数
 const conf = JSON.parse(fs.readFileSync(yargs.argv.conf, "utf-8"));
 
-// 定义命令，add, get, update, del
+// 定义命令，add, get, list, update, del
 yargs.command({
   // 命令名
   command: "add",
@@ -74,6 +75,15 @@ yargs.command({
   },
   handler() {
     noteService.get(Object.assign(conf, yargs.argv));
+  },
+});
+
+
+yargs.command({
+  command: "list",
+  desc: "get note list",
+  handler() {
+    noteService.list(Object.assign(conf, yargs.argv));
   },
 });
 

@@ -66,6 +66,17 @@ const get = (argv) => {
 };
 
 /**
+ * 查询note列表
+ * @param argv
+ */
+const list = (argv) => {
+  const notes = loadNotes(argv.notePath);
+
+  notes.forEach((note) => {
+    console.log(note.title);
+  });
+};
+/**
  * 更新note条目
  * @param argv
  */
@@ -125,6 +136,7 @@ const del = (argv) => {
 module.exports = {
   add,
   get,
+  list,
   update,
   del,
 };
