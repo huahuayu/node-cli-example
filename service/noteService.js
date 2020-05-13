@@ -26,10 +26,10 @@ const loadNotes = (notePath) => {
 const add = (argv) => {
   const notes = loadNotes(argv.notePath);
 
-  // 找出相同标题的note
-  const duplicateTitleNotes = notes.filter((note) => note.title === argv.title);
+  // 找出相同标题的note, 如果没有重复的标题，duplicateTitleNote 等于 undefined
+  const duplicateTitleNote = notes.find((note) => note.title === argv.title);
 
-  if (duplicateTitleNotes.length !== 0) {
+  if (duplicateTitleNote) {
     console.log("duplicate title!");
     return;
   }
@@ -60,9 +60,9 @@ const get = (argv) => {
     return;
   }
 
-  const filter = notes.filter((note) => note.title === argv.title);
+  const note = notes.find((note) => note.title === argv.title);
 
-  console.log(filter.length === 0 ? "note does not exist!" : filter[0]);
+  console.log(note ? note : "note does not exist!");
 };
 
 /**
